@@ -4,8 +4,8 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <style>
 body {
-  background: #9053c7;
-    background-color: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+ background: #9053c7;
+    background-color: -webkit-linear-gradient(-200deg, #c850c0, #4158d0);
     background: -webkit-linear-gradient(-200deg,#4158d0, #c850c0 );
   
 }
@@ -13,6 +13,7 @@ h1{
 text-align:center;
 font-family: Arial, Helvetica, sans-serif;
 padding : 25px;
+text-color:white;
 font-size: 45px;
 }
 h2{
@@ -22,10 +23,8 @@ h2{
 h4{
   font-size: 20px;
   font-family: sans-serif;
-  padding-bottom: 20px;
 
 }
-
 
 .container-fluid { 
   
@@ -37,8 +36,12 @@ h4{
 background-color: #e9ecef; 
 font-family: Arial, Helvetica, sans-serif;
   padding-bottom: 70px;
+
  text-align:center;
 } 
+
+
+
 
 
 
@@ -107,55 +110,36 @@ font-family: Arial, Helvetica, sans-serif;
     }
 }
 
-.hero-box{
+.hero-boxx{
   padding-top: 20px;
   margin-bottom: -20px;
 }
-
-.container{
-  padding-top: 60px;
-}
-
-
-
-
-#partitioned {
-  padding-left: 15px;
-  letter-spacing: 40px;
-  border: 0;
-  background-image: linear-gradient(to left, black 70%, rgba(255, 255, 255, 0) 0%);
-  background-position: bottom;
-  background-size: 50px 1px;
-  background-repeat: repeat-x;
-  background-position-x: 35px;
-  width: 290px;
-}
 </style>
 
-<title>Enter OTP</title>
+<title>Email DOESNOT EXIST</title>
 	 <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 </head>
 	<body>
-         <form action="/action_page.php" style="max-width:800px;margin:auto">
-    <h1 style="font-size: 60px; padding-top: 80px;">Reset Password</h1>
-    <section class="container">
-		  <div class="container-fluid">
-		  <h4 class="display-4">Forgot Password </h1>
-		  <p class="lead">A 6-digit OTP is sent to your mail. Enter the OTP below and press send.</p>
-		 
-		   <div class="otpBox">
-        <input id="partitioned" type="text" maxlength="6" style="background-color:  #e9ecef; padding-top: 30px; margin-bottom: 20px;" />
+   <form action="/action_page.php" style="max-width:500px;margin:auto; padding-top: 70px;">
+		<h1 style="font-size: 60px;">Reset Password</h1>
+		 <div class="container-fluid">
+		  <h4 class="display-4" style="padding-bottom: 20px; font-size: 45px;">Sorry,This email id is invalid</h1>
+		  <p class="lead">Please return back and enter a valid email id.  </p>
+
+   
+      <div class="login-button">
+        <div class="hero-box"> 
+         <a href="#" class="btn btn-white btn-animate">Re-Enter</a>  
+        </div>
+
+        <div class="hero-boxx"> 
+          <a href="#" class="btn btn-white btn-animate">Go Home</a>  
+         </div>
        </div>
-      <div class="hero-box"> 
-        <a href="#" class="btn btn-white btn-animate">Send</a>  
-       </div>
-		</div>
-			   
-        
-		</form>
-       
-  </section>
+    
+   
+</form>
 </body>
 </html>
