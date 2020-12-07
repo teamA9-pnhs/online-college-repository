@@ -84,8 +84,8 @@ DATABASES = {
         # 'NAME': BASE_DIR / 'db.sqlite3',
         'ENGINE': 'django.db.backends.mysql',
         'NAME':'college_database_github',
-        'USER':'root',
-        'PASSWORD':'iamwill1',
+        'USER':'college_database',
+        'PASSWORD':'college_database',
         'HOST':'localhost',
         'PORT':'3306',
     }
