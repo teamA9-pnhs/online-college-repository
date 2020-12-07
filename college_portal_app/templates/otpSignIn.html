@@ -138,19 +138,29 @@ font-family: Arial, Helvetica, sans-serif;
 
 </head>
 	<body>
-         <form action="/action_page.php" style="max-width:800px;margin:auto">
+         <form action="{% url 'verify_otp'%}" method="post">
+           {%csrf_token%}
     <h1 style="font-size: 60px; padding-top: 80px;">Reset Password</h1>
     <section class="container">
 		  <div class="container-fluid">
 		  <h4 class="display-4">Forgot Password </h1>
 		  <p class="lead">A 6-digit OTP is sent to your mail. Enter the OTP below and press send.</p>
-		 
+     
+      <input  id="1hidden_input" {% if otp1_email %} value="{{ otp1_email }}" {% endif %} type="Email" name="otp_email">
+      <!-- <script>
+          document.getElementById("1hidden_input").style.display="none";
+      </script>
+         -->
 		   <div class="otpBox">
-        <input id="partitioned" type="text" maxlength="6" style="background-color:  #e9ecef; padding-top: 30px; margin-bottom: 20px;" />
+        <input name='OTP' id="partitioned" type="text" maxlength="6" style="background-color:  #e9ecef; padding-top: 30px; margin-bottom: 20px;" />
        </div>
-      <div class="hero-box"> 
+        {% if message %}
+        <p class="text-muted">{{message}}</p>
+        {% endif %}
+       <button type="submit" class="btn btn-primary">Verify</button>
+       <!-- <div class="hero-box"> 
         <a href="#" class="btn btn-white btn-animate">Send</a>  
-       </div>
+       </div> -->
 		</div>
 			   
         

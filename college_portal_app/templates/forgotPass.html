@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -198,16 +199,20 @@ input[type=email] {
               <h1>Forgot Password</h1>
                <h2 style="font-family: sans-serif; word-spacing: 1px;"> You can reset your password by submitting your email.</h2>
               <h4>Enter your E-mail to check if user exists.</h4>
-              <div class="email">
-                <!-- <input id="partitioned" type="text" maxlength="6" style="background-color:  #e9ecef; padding-top: 30px; margin-bottom: 20px;" /> -->
-                <input  id="partitioned" type="email" placeholder="Email address" name="mail" required>
-              </div>
-              <!-- <input class="email" type="email" id="email" name="email" size="40" height="50" placeholder="Enter Your Email Here" style="display: flexbox;" required> -->
-             
-              <div class="login-button">
-                 <div class="hero-box"> 
-                  <a href="#" class="btn btn-white btn-animate">Verify & Send OTP</a>
-                  </div>
+              <form id="form" method="post" action="{% url 'reset_password' %}">
+                {% csrf_token %}
+                <div class="email">
+                  <!-- <input id="partitioned" type="text" maxlength="6" style="background-color:  #e9ecef; padding-top: 30px; margin-bottom: 20px;" /> -->
+                  <input  id="partitioned" type="email" placeholder="Email address" name="email" required>
+                </div>
+                <!-- <input class="email" type="email" id="email" name="email" size="40" height="50" placeholder="Enter Your Email Here" style="display: flexbox;" required> -->
+              
+                <div class="login-button">
+                  <div class="hero-box"> 
+                    <!-- <a href="javascript:{}" onclick="document.getElementById('form').submit();" class="btn btn-white btn-animate">Verify & Send OTP</a> -->
+                    <button type="submit" class="btn btn-white btn-animate">Verify and Send OTP</button>
+                    </div>
+              </form>
               </div>
         </div>
       </section>

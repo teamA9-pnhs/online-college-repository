@@ -4,7 +4,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-
+from random import randint
+from django.core.mail import send_mail
 from college_portal_app.EmailBackEnd import EmailBackEnd
 
 
@@ -17,17 +18,41 @@ def loginPage(request):
 
 def go_here(request):
     if request.method == 'GET':
-       return render(request , 'reset.html',{'message':"Enter your Email here to check if the User exists"})
+       return render(request , 'forgotPass.html')
 
 def reset_password(request):
     if not 'email' in request.POST is None:
         email = request.POST.get('email')
+        print(email)
     else:
-        return redirect('reset.html', {'message':"Please Enter a Valid Email"})
+        return redirect('forgotPass.html')
     if not get_user_model().objects.filter(email= email):
-        return render(request, 'reset.html', {'exists':False ,'message':"Please register your name with your faculty",'email':email} )
-    return render(request, 'reset.html' , {'exists':True,'message' : "Verified", 'email':email})
+        return render(request, 'otp_not_exist.html' )
+    return render(request, 'otp_sent.html',{'otp1_email': email })
   
+
+def verify_otp(request):
+    if 'otp_email' in request.POST:
+        print(f"Process of checking the otp {request.POST.get('otp_email')} HANG ON!")
+        user = get_user_model().objects.get(email=request.POST.get('otp_email'))
+        key = user.random_key
+        print(key)
+        if key == request.POST.get('OTP'):
+            return render(request, 'Re-Enter_p.html',{'email':request.POST.get('otp_email')})
+        return render(request, 'otpSignIn.html', {'message':"Your OTP is wrong, Enter Again!",'otp1_email':request.POST.get('otp_email')})
+    return (request, 'otpSignIn.html',{'message':"Well optemail not found",'otp1_email':request.POST.get('otp_email')})
+
+def sending_email(request):
+    if 'otp_email' in request.POST:
+        user= get_user_model().objects.get(email=request.POST.get('otp_email'))
+        user.random_key = randint(100000, 999999)
+        user.save()
+        key = user.random_key
+        email_mesg ='Well you forgot your email So I\'m here now. Your key for new password is ' + str(key)
+        print(email_mesg)
+        # send_mail("Reset Password OTP",email_mesg , email ,[email], fal_silently=False)
+        return render(request, "otpSignIn.html",{"otp1_email": request.POST.get('otp_email')})
+    return render(request, "forgotPass.html")
 
 def doLogin(request):
     if request.method != "POST":

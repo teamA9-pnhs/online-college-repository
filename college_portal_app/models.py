@@ -17,6 +17,7 @@ class SessionYearModel(models.Model):
 # Overriding the Default Django Auth User and adding One More Field (user_type)
 class CustomUser(AbstractUser):
     user_type_data = ((1, "HOD"), (2, "Teacher"), (3, "Student"))
+    random_key = models.CharField(default=000000, max_length=6)
     user_type = models.CharField(default=1, choices=user_type_data, max_length=10)
 
 

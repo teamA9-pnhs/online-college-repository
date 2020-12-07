@@ -83,9 +83,9 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':'college_database',
-        'USER':'college_database',
-        'PASSWORD':'college_database_password',
+        'NAME':'college_database_github',
+        'USER':'root',
+        'PASSWORD':'iamwill1',
         'HOST':'localhost',
         'PORT':'3306',
     }
@@ -150,3 +150,10 @@ AUTH_USER_MODEL = "college_portal_app.CustomUser"
 
 # Registering Custom Backend "EmailBackEnd"
 AUTHENTICATION_BACKENDS = ['college_portal_app.EmailBackEnd.EmailBackEnd']
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST_USER = ''
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_PASSWORD = ""
