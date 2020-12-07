@@ -50,9 +50,22 @@ def sending_email(request):
         key = user.random_key
         email_mesg ='Well you forgot your email So I\'m here now. Your key for new password is ' + str(key)
         print(email_mesg)
-        # send_mail("Reset Password OTP",email_mesg , email ,[email], fal_silently=False)
+        # send_mail("Reset Password OTP",email_mesg , email ,[request.POST.get('otp_email')], fal_silently=False)
         return render(request, "otpSignIn.html",{"otp1_email": request.POST.get('otp_email')})
+    print("not working")
     return render(request, "forgotPass.html")
+
+def change_password(request):
+    if(request.POST.get('password1')==request.POST.get('password2')):
+        User = get_user_model().objects.get(email=request.POST.get('otp_email'))
+        User.set_password(request.POST.get('password1'))
+        User.save()
+        print("well the passwords were same so the password was changed")
+        return render(request, 'login.html',{'message':"Your password has been successfully changed!"})
+    else:
+        print("Things went bad, abort mission!")
+        return render(request, 'Re-Enter_p.html', {'message':"Passwords don't match each other",'email':request.POST.get('otp_email')})
+
 
 def doLogin(request):
     if request.method != "POST":

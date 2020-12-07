@@ -30,6 +30,7 @@ urlpatterns = [
     path('checked_email/', views.reset_password , name="reset_password"),
     path('send_otp/' , views.sending_email , name="sending_email"),
     path('successful/', views.verify_otp , name="verify_otp"),
+    path('change_password/',views.change_password, name='change_password'),
     # path('edit_student/<student_id>', HodViews.edit_student, name="edit_student"),
     # path('edit_student_save/', HodViews.edit_student_save, name="edit_student_save"),
     # path('delete_student/<student_id>/', HodViews.delete_student, name="delete_student"),

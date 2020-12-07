@@ -142,7 +142,9 @@ LOGIN_EXEMPT_URLS= [
    '/check_email/',
    '/successful/',
    '/doLogin/',
-   '/checked_email/'
+   '/checked_email/',
+   '/send_otp/',
+   '/change_password/',
    ]
 
 #For Custom USER
