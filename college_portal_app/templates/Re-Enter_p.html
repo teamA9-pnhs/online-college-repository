@@ -183,10 +183,10 @@ body {
             <h5 class="card-subheading px-3 pb-3"><br>It's quick and easy.</h5>
             <form>
                 <input  id="1hidden_input" {% if email %} value="{{ email }}" {% endif %} type="Email" name="otp_email">
-      <!-- <script>
+      <script>
           document.getElementById("1hidden_input").style.display="none";
       </script>
-         --> 
+         
                {%csrf_token%}
                 <div class="row rthree">
                     <div class="form-group col-md-5 ffour"> <input name="password1" type="password" class="form-control" placeholder="Password"> </div>

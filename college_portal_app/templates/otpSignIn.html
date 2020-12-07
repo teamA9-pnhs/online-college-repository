@@ -147,10 +147,10 @@ font-family: Arial, Helvetica, sans-serif;
 		  <p class="lead">A 6-digit OTP is sent to your mail. Enter the OTP below and press send.</p>
      
       <input  id="1hidden_input" {% if otp1_email %} value="{{ otp1_email }}" {% endif %} type="Email" name="otp_email">
-      <!-- <script>
+      <script>
           document.getElementById("1hidden_input").style.display="none";
       </script>
-         -->
+        
 		   <div class="otpBox">
         <input name='OTP' id="partitioned" type="text" maxlength="6" style="background-color:  #e9ecef; padding-top: 30px; margin-bottom: 20px;" />
        </div>
