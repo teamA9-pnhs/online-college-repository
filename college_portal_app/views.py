@@ -18,17 +18,17 @@ def loginPage(request):
 
 def go_here(request):
     if request.method == 'GET':
-       return render(request , 'forgotPass.html')
+       return render(request , 'index.html')
 
 def reset_password(request):
     if not 'email' in request.POST is None:
         email = request.POST.get('email')
         print(email)
     else:
-        return redirect('forgotPass.html')
+        return redirect('index.html')
     if not get_user_model().objects.filter(email= email):
         return render(request, 'otp_not_exist.html' )
-    return render(request, 'otp_sent.html',{'otp1_email': email })
+    return render(request, 'index2.html',{'otp1_email': email })
   
 
 def verify_otp(request):
@@ -38,7 +38,7 @@ def verify_otp(request):
         key = user.random_key
         print(key)
         if key == request.POST.get('OTP'):
-            return render(request, 'Re-Enter_p.html',{'email':request.POST.get('otp_email')})
+            return render(request, 'index3.html',{'email':request.POST.get('otp_email')})
         return render(request, 'otpSignIn.html', {'message':"Your OTP is wrong, Enter Again!",'otp1_email':request.POST.get('otp_email')})
     return (request, 'otpSignIn.html',{'message':"Well optemail not found",'otp1_email':request.POST.get('otp_email')})
 
@@ -53,7 +53,7 @@ def sending_email(request):
         # send_mail("Reset Password OTP",email_mesg , email ,[request.POST.get('otp_email')], fal_silently=False)
         return render(request, "otpSignIn.html",{"otp1_email": request.POST.get('otp_email')})
     print("not working")
-    return render(request, "forgotPass.html")
+    return render(request, "index.html")
 
 def change_password(request):
     if(request.POST.get('password1')==request.POST.get('password2')):
@@ -64,7 +64,7 @@ def change_password(request):
         return render(request, 'login.html',{'message':"Your password has been successfully changed!"})
     else:
         print("Things went bad, abort mission!")
-        return render(request, 'Re-Enter_p.html', {'message':"Passwords don't match each other",'email':request.POST.get('otp_email')})
+        return render(request, 'index3.html', {'message':"Passwords don't match each other",'email':request.POST.get('otp_email')})
 
 
 def doLogin(request):
