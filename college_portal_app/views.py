@@ -16,6 +16,12 @@ def home(request):
 def loginPage(request):
     return render(request, 'login.html')
 
+
+
+# def attendanceReport(request):
+#     return render(request 'attendance.html')
+
+    
 def go_here(request):
     if request.method == 'GET':
        return render(request , 'index.html')
