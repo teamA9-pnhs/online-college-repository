@@ -171,6 +171,7 @@ class StudentResult(models.Model):
     objects = models.Manager()
 
 
+
 #Creating Django Signals
 
 # It's like trigger in database. It will run only when Data is Added in CustomUser model
