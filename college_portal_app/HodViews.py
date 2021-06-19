@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
 
-from college_portal_app.models import CustomUser, Teachers,Semisters,Students
+from college_portal_app.models import CustomUser, Teachers,Semisters,Students,Subjects
 
 
 
@@ -219,3 +219,54 @@ def manage_student(request):
         "students": students
     }
     return render(request, 'hod_template/manage_student.html', context)
+
+
+def manage_session(request):
+    return render(request,"hod_template/manage_session_template.html")
+
+#def add_session_save(request):
+    if request.method!="POST":
+        return HttpResponseRedirect(reverse("manage_session"))
+    else:
+        session_start_year=request.POST.get("session_start")
+        session_end_year=request.POST.get("session_end")
+
+        try:
+            sessionyear=SessionYearModel(session_start_year=session_start_year,session_end_year=session_end_year)
+            sessionyear.save()
+            messages.success(request, "Successfully Added Session")
+            return HttpResponseRedirect(reverse("manage_session"))
+        except:
+            messages.error(request, "Failed to Add Session")
+            return HttpResponseRedirect(reverse("manage_session"))
+#code by Neetya Dated: 19-06-21
+#these u add and try
+#see there is some mistake either of these four files
+def add_subject_template(request):
+    semister=Semisters.objects.all()
+    teachers=CustomUser.objects.filter(user_type=2)
+    return render(request,"hod_template/add_subject_template.html", {"teachers":teachers,"semister":semister})
+
+def add_subject_template_save(request):
+    if request.method!="POST":
+        return HttpResponse("<h2>Method Not Allowed</h2>")
+    else:
+        subject_name=request.POST.get("subject_name")
+        semisters_id=request.POST.get("semester")
+        semisters=Semisters.objects.get(id=semisters_id)
+        teachers_id=request.POST.get("staff")
+        teachers=CustomUser.objects.get(id=teachers_id)
+
+        try:
+            subject=Subjects(subject_name=subject_name,semister_id=semisters,teacher_id=teachers)
+            subject.save()
+            messages.success(request,"Successfully Added Subject")
+            return HttpResponseRedirect(reverse("add_subject"))
+        except:
+            messages.error(request,"Failed to Add Subject")
+            return HttpResponseRedirect(reverse("add_subject"))
+
+def manage_subject(request):
+    subjects=Subjects.objects.all()
+    return render(request,"hod_template/manage_subject.html",{"subjects":subjects})
+
