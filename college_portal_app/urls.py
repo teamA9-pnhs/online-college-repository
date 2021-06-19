@@ -2,6 +2,9 @@
 from django.urls import path, include
 from . import views
 from .import HodViews
+from .import StaffViews
+from .import StudentViews
+
 
 
 urlpatterns = [
@@ -18,10 +21,8 @@ urlpatterns = [
     path('edit_teacher_save/', HodViews.edit_teacher_save, name="edit_teacher_save"),
     path('delete_teacher/<teacher_id>/', HodViews.delete_teacher, name="delete_teacher"),
     path('add_semister/', HodViews.add_semister, name="add_semister"),
-    path('add_subject/',HodViews.add_subject, name="add_subject"),
     path('add_semister_save/', HodViews.add_semister_save, name="add_semister_save"),
     path('manage_semister/', HodViews.manage_semister, name="manage_semister"),
-   path('manage_subject/', HodViews.manage_subject, name="manage_subject"),
     path('edit_semister/<semister_id>/', HodViews.edit_semister, name="edit_semister"),
     path('edit_semister_save/', HodViews.edit_semister_save, name="edit_semister_save"),
     path('delete_semister/<semister_id>/', HodViews.delete_semister, name="delete_semister"),
@@ -33,8 +34,14 @@ urlpatterns = [
     path('send_otp/' , views.sending_email , name="sending_email"),
     path('successful/', views.verify_otp , name="verify_otp"),
     path('change_password/',views.change_password, name='change_password'),
-    # path('attendance/', views.attendanceReport, name='attendance')
+    ##new addition
+    path('add_subject_template/', HodViews.add_subject_template,name="add_subject_template"),
+    path('add_subject_template_save/', HodViews.add_subject_template,name="add_subject_template"),
+    path('manage_subject/', HodViews.manage_subject,name="manage_subject"),
     # path('edit_student/<student_id>', HodViews.edit_student, name="edit_student"),
     # path('edit_student_save/', HodViews.edit_student_save, name="edit_student_save"),
     # path('delete_student/<student_id>/', HodViews.delete_student, name="delete_student"),
+    path('staff_attendance_template',StaffViews.staff_attendance_template,name="staff_attendance_template"),
+    path('staff_home/', StaffViews.staff_home, name="staff_home"),
+    path('student_home/', StudentViews.student_home, name="student_home")
 ]
