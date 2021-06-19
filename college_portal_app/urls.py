@@ -41,7 +41,7 @@ urlpatterns = [
     # path('edit_student/<student_id>', HodViews.edit_student, name="edit_student"),
     # path('edit_student_save/', HodViews.edit_student_save, name="edit_student_save"),
     # path('delete_student/<student_id>/', HodViews.delete_student, name="delete_student"),
-    path('staff_attendance_template',StaffViews.staff_attendance_template,name="staff_attendance_template"),
-    path('staff_home/', StaffViews.staff_home, name="staff_home"),
-    path('student_home/', StudentViews.student_home, name="student_home")
+#     path('staff_attendance_template',StaffViews.staff_attendance_template,name="staff_attendance_template"),
+#     path('staff_home/', StaffViews.staff_home, name="staff_home"),
+#     path('student_home/', StudentViews.student_home, name="student_home")
 ]
