@@ -32,9 +32,15 @@ urlpatterns = [
     path('send_otp/' , views.sending_email , name="sending_email"),
     path('successful/', views.verify_otp , name="verify_otp"),
     path('change_password/',views.change_password, name='change_password'),
-    # path('edit_student/<student_id>', HodViews.edit_student, name="edit_student"),
-    # path('edit_student_save/', HodViews.edit_student_save, name="edit_student_save"),
-    # path('delete_student/<student_id>/', HodViews.delete_student, name="delete_student"),
+    #added by neetya date 21-6-21 
+     path('edit_student/<student_id>', HodViews.edit_student, name="edit_student"),
+    path('edit_student_save/', HodViews.edit_student_save, name="edit_student_save"),
+    path('delete_student/<student_id>/', HodViews.delete_student, name="delete_student"),
     #path('staff_take_attendance',StaffViews.staff_take_attendance,name="staff_home_template"),
      path('staff_home/', StaffViews.staff_home, name="staff_home"),
+     path('add_subject_template/', HodViews.add_subject_template,name="add_subject_template"),
+    path('add_subject_template_save/', HodViews.add_subject_template_save,name="add_subject_template_save"),
+    path('manage_subject/', HodViews.manage_subject,name="manage_subject"),
+   # path('student_home/', StudentViews.student_home, name="student_home")
+   
 ]
