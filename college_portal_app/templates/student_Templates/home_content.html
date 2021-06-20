@@ -1,0 +1,418 @@
+{% extends "student_Templates/base_template.html" %}
+{% load static %}
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block content %}
+
+
+<div class="panel-header bg-primary-gradient">
+  <div class="page-inner py-5">
+    <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+      <div>
+
+      </div>
+      <div class="ml-md-auto py-2 py-md-0">
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}
+
+{% block javascripts %}
+
+<script>
+
+  Circles.create({
+    id: 'circles-1',
+    radius: 60,
+    value: 100,
+    maxValue: 100,
+    width: 7,
+    text: {{ forms_filled }},
+    colors: ['#f1f1f1', '#FF9E27'],
+    duration: 400,
+    wrpClass: 'circles-wrp',
+    textClass: 'circles-text',
+    styleWrapper: true,
+    styleText: true
+		})
+
+  Circles.create({
+    id: 'circles-2',
+    radius: 60,
+    value: {{ confirmed_admission }},
+    maxValue: {{ forms_filled }},
+    width: 7,
+    text: {{ confirmed_admission }},
+    colors: ['#f1f1f1', '#2BB930'],
+    duration: 400,
+    wrpClass: 'circles-wrp',
+    textClass: 'circles-text',
+    styleWrapper: true,
+    styleText: true
+		})
+
+  var doughnutChart = document.getElementById('doughnutChart').getContext('2d');
+
+  var myDoughnutChart = new Chart(doughnutChart, {
+    type: 'doughnut',
+    data: {
+      datasets: [{
+        data: [{{ confirmed_admission }}, {{ forms_filled }}],
+    backgroundColor: ['#f3545d', '#2BB930'],
+  }],
+
+    labels: [
+    'Pending: {{confirmed_admission}}',
+    'Paid: {{forms_filled}}',
+  ]
+    },
+  options: {
+    responsive: true,
+      maintainAspectRatio: false,
+        height: 2000,
+          legend: {
+      position: 'bottom',
+    },
+    layout: {
+      padding: {
+        left: 0,
+          right: 0,
+            top: 0,
+              bottom: 0
+      }
+    }
+  }
+  });
+
+  var csrftoken = "{{csrf_token}}";
+  function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  }
+  //csrf config ends
+
+  //config ajax with csrf
+  $.ajaxSetup({
+    beforeSend: function (xhr, settings) {
+      if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+      }
+    }
+  });
+
+  /*calender*/
+  var input;
+  var currDate;
+  let today = new Date();
+  var presentYear = today.getFullYear();
+  var presentMonth = today.getMonth();
+  var presentDay = today.getDate();
+  let currentMonth = today.getMonth();
+  let currentYear = today.getFullYear();
+  let currentDay = today.getDate();
+  document.getElementById("today").addEventListener("change", function () {
+    input = this.value;
+    currDate = new Date(input);
+    presentYear = currDate.getFullYear();
+    presentMonth = currDate.getMonth();
+    presentDay = currDate.getDay();
+    currentMonth = currDate.getMonth();
+    currentYear = currDate.getFullYear();
+    currentDay = currDate.getDay();
+    showCalendar(currentMonth, currentYear);
+  });
+  let selectYear = document.getElementById("year");
+  let selectMonth = document.getElementById("month");
+  let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+  let monthAndYear = document.getElementById("monthAndYear");
+  showCalendar(currentMonth, currentYear);
+  function fetch_events() {
+    $.ajax({
+      type: "GET",
+      url: "",
+      data: {
+        'ajax_retrieve': 1,
+        "month": currentMonth + 1,
+      },
+      success: function (response) {
+        if (response.status == 1) {
+          fetched = 1;
+          event_LIST = response.events;
+          mapcolors();
+          mapAllEvents();
+        }
+        else {
+          console.log("Failed to retieve events, contact IT support");
+        }
+      },
+      error: function () {
+        console.log("Internal server error");
+      }
+    });
+  }
+  fetch_events();
+
+  var fetched;
+  function next() {
+    fetched = 0;
+    document.getElementById("previous").style.visibility = 'visible';
+    if (currentYear === presentYear + 1 && currentMonth === presentMonth - 1) {
+      document.getElementById("next").style.visibility = 'hidden';
+    }
+    else {
+      currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
+      currentMonth = (currentMonth + 1) % 12;
+      showCalendar(currentMonth, currentYear);
+    }
+
+    $.ajax({
+      type: "GET",
+      url: "",
+      data: {
+        'ajax_retrieve': 1,
+        "month": currentMonth + 1,
+      },
+      success: function (response) {
+        if (response.status == 1) {
+          fetched = 1;
+          event_LIST = response.events;
+          mapcolors();
+          mapAllEvents();
+        }
+        else {
+          console.log("Failed to retieve events, contact IT support");
+        }
+      },
+      error: function () {
+        console.log("Internal server error");
+      }
+    });
+  }
+
+  function previous() {
+    fetched = 0;
+    document.getElementById("next").style.visibility = 'visible';
+    if (currentMonth === presentMonth && currentYear === presentYear) {
+      document.getElementById("previous").style.display = 'hidden';
+    }
+    else {
+      currentYear = (currentMonth === 0) ? currentYear - 1 : currentYear;
+      currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
+      showCalendar(currentMonth, currentYear);
+
+    }
+    $.ajax({
+      type: "GET",
+      url: "",
+      data: {
+        'ajax_retrieve': 1,
+        "month": currentMonth + 1,
+      },
+      success: function (response) {
+        if (response.status == 1) {
+          fetched = 1;
+          event_LIST = response.events;
+          mapcolors();
+          mapAllEvents();
+        }
+        else {
+          console.log("Failed to retieve events, contact IT support");
+        }
+      },
+      error: function () {
+        console.log("Internal server error");
+      }
+    });
+  }
+
+  function jump() {
+    currentYear = parseInt(selectYear.value);
+    currentMonth = parseInt(selectMonth.value);
+    showCalendar(currentMonth, currentYear);
+  }
+
+  function showCalendar(month, year) {
+
+    var firstDay = (new Date(year, month)).getDay();
+    var daysInMonth = 32 - new Date(year, month, 32).getDate();
+
+    var tbl = document.getElementById("calendar-body");
+
+    tbl.innerHTML = "";
+
+    monthAndYear.innerHTML = months[month] + " " + year;
+    selectYear = year;
+    selectMonth = month;
+
+    date = 1;
+    for (let i = 0; i < 6; i++) {
+
+      let row = document.createElement("tr");
+
+      for (let j = 0; j < 7; j++) {
+        if (i === 0 && j < firstDay) {
+          let cell = document.createElement("td");
+          let cellText = document.createTextNode("");
+          cell.appendChild(cellText);
+          cell.style.backgroundColor = 'white';
+          row.appendChild(cell);
+        } else if (date > daysInMonth) {
+          break;
+        }
+
+        else {
+
+          let cell = document.createElement("td");
+          let cellText = document.createTextNode(date);
+          if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
+            cell.classList.add("bg-info");
+          }
+          cell.appendChild(cellText);
+          cell.id = "viewEvent " + date + "" + (month + 1) + "" + year;
+          cell.classList.add("datesofthismonth");
+          $(cell).attr('data-text', date + "/" + (month + 1) + "/" + year);
+
+          if (month === presentMonth && date < 1) {
+            console.log("\n" + year + "\n" + presentYear);
+            cell.style.backgroundColor = 'lightgrey';
+          }
+          else {
+            cell.addEventListener('click', onClickb, false);
+          }
+          //cell.addEventListener("click", onClickb, false);
+          row.appendChild(cell);
+          date++;
+        }
+      }
+
+      tbl.appendChild(row);
+    }
+
+  }
+  function onClickb() {
+    var date = $(this).attr('data-text');
+    //$('#eventDate').text(modalDate + "/" + modalMonth + "/" + modalYear);
+    $('#eventDate').text(date);
+    _day = this.textContent;
+
+    $('#viewEvent').modal('show');
+    $("#viewEventBody").hide();
+    $("#modalLoader").show();
+    events = event_LIST[formatdate(new Date(currentYear, currentMonth, _day))];
+    temp_body = $("#viewEventBody");
+    temp_body.html("");
+    if (events == undefined) {
+      temp_body.html("NO EVENTS FOR THIS DAY");
+    }
+    else {
+
+      if (fetched == 1) {
+        for (i = 0; i < events.length; i++) {
+          // listevents
+          if (events[i].teachers == "1") {
+            belong_text = "For Teachers";
+            if (events[i].students == "-1") {
+              belong_text = belong_text + " and All Classes ";
+            }
+            else if (events[i].students == "0") { }
+            else {
+              belong_text = belong_text + " and Classes " + events[i].students;
+            }
+          }
+          else {
+            if (events[i].students == "-1") {
+              belong_text = "For All Classes ";
+            }
+            else if (events[i].students == "0") { }
+            else {
+              belong_text = "For Classes " + events[i].students;
+            }
+          }
+          belong_text = belong_text + " until " + events[i].end_day;
+          temp_body.html(temp_body.html() + '<div class="card event-card today"><div class="card-body ' + events[i]._id + '"><div class="d-flex"><span><div class="round"></div></span><span><p class="text-info m-0" style="font-size: 16px;">' + belong_text + '</p><p class="m-0" style="font-size: 14px;">' + events[i].title + " : " + events[i].description + '</p></span></div></div></div>');
+        }
+
+      }
+    }
+    $("#viewEventBody").show();
+    $("#modalLoader").hide();
+    // map events of that date
+
+
+  }
+  function mapcolors() {
+    z = $(".datesofthismonth");
+    z.removeClass("borderBottom border");
+    z.removeClass("highimportance1 highimportance2 highimportance3 highimportance0");
+    keys = Object.keys(event_LIST);
+    for (i = 0; i < keys.length; i++) {
+      if (event_LIST[keys[i]].length > 1) {
+        z[Number(keys[i].split('-')[2]) - 1].classList.add("border");
+      } else {
+        z[Number(keys[i].split('-')[2]) - 1].classList.add("borderBottom");
+      }
+      highimportance = 0;
+      for (j = 0; j < event_LIST[keys[i]].length; j++) {
+        if (event_LIST[keys[i]][j].importance > highimportance) {
+          highimportance = event_LIST[keys[i]][j].importance;
+        }
+      }
+      z[Number(keys[i].split('-')[2]) - 1].classList.add("highimportance" + highimportance);
+    }
+    return false;
+  }
+
+  function mapAllEvents() {
+    keys = Object.keys(event_LIST);
+
+    temp_body = $(".ContainsallEvents");
+    temp_body.html("");
+    for (j = 0; j < keys.length; j++) {
+      _day = keys[j];
+      events = event_LIST[_day];
+
+      for (i = 0; i < events.length; i++) {
+        // listevents
+        if (events[i].teachers == "1") {
+          belong_text = "For Teachers";
+          if (events[i].students == "-1") {
+            belong_text = belong_text + " and All Classes ";
+          }
+          else if (events[i].students == "0") { }
+          else {
+            belong_text = belong_text + " and Classes " + events[i].students;
+          }
+        }
+        else {
+          if (events[i].students == "-1") {
+            belong_text = "For All Classes ";
+          }
+          else if (events[i].students == "0") { }
+          else {
+            belong_text = "For Classes " + events[i].students;
+          }
+        }
+        belong_text = belong_text + "until " + events[i].end_day;
+        temp_body.html(temp_body.html() + '<div class="card-body ' + events[i]._id + '"><div><div class="round"></div></div><div><span><p class="text-info m-0" style="font-size: 16px;">' + belong_text + '</p><p class="m-0" style="font-size: 14px;">' + events[i].title + " : " + events[i].description + '</p></span></div></div>');
+      }
+    }
+
+  }
+  function formatdate(date) {
+    a = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000).toISOString().split('T')[0];
+    return a;
+  }
+
+</script>
+
+{% endblock javascripts %}
