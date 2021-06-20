@@ -1,7 +1,7 @@
 {% extends 'hod_template/base_template.html' %}
 
 {% block page_title %}
-    Add Student
+    Edit Student | Username: {{ student.admin.username }} | #ID : {{ student.admin.id }}
 {% endblock page_title %}
 
 {% block content %}
@@ -16,11 +16,11 @@
                     <!-- general form elements -->
                     <div class="card ">
                     <div class="card-header">
-                        <h2 class="card-title">Add Subject</h2>
+                        <h3 class="card-title">Edit Student</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form role="form" method="POST" action="{% url 'add_subject_template_save' %}">
+                    <form role="form" method="POST" action="{% url 'edit_student_save' %}">
                         {% csrf_token %}
 
                         
@@ -48,35 +48,48 @@
                                 </div>
                                 </div>
                                 {% endif %}
-                          <div class="form-group">
-                            <label>Subject Name </label>
-                              <input type="text" class="form-control" name="subject_name" placeholder="Enter Subject">
-                          </div>    
-                          <div class="form-group">
-                            <label>Semester</label>
-                            <select class="form-control" name="semister" >
+                            
 
-                                {% for semister in semisters %}
-                                    <option value="{{ semister.id }}"> {{ semister.semister_name }} </option>
-                                {% endfor %}
-
-                            </select>
-                        </div>
+                        <div class="card-body">
                             <div class="form-group">
-                              <label>Teacher</label>
-                              <select class="form-control" name="teacher" >
+                                <label>Email address</label>
+                                <input type="email" class="form-control" name="email" value="{{ student.admin.email }}">
+                            </div>
 
-                                  {% for teacher in teachers %}
-                                      <option value="{{ teacher.id }}"> {{ teacher.first_name }} {{ teacher.last_name }}</option>
-                                  {% endfor %}
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" class="form-control" name="username" value="{{ student.admin.username }}">
+                            </div>
 
-                              </select>
-                          </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" class="form-control" name="password" value="{{ student.admin.password }}">
+                            </div> 
 
+                            <div class="form-group">
+                                <label>First Name</label>
+                                <input type="text" class="form-control" name="first_name" value="{{ student.admin.first_name }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Last Name</label>
+                                <input type="text" class="form-control" name="last_name" value="{{ student.admin.last_name }}">
+                                <input type="hidden" name="student_id" value="{{ student.admin.id }}" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Address</label>
+                                <textarea class="form-control" name="address">{{ student.address }}</textarea>
+                            </div>
+
+                            
+
+
+                        </div>
                         <!-- /.card-body -->
 
                         <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Add Student</button>
+                        <button type="submit" class="btn btn-primary">Update Student</button>
                         </div>
                     </form>
                     </div>
