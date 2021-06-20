@@ -3,6 +3,7 @@ from django.urls import path, include
 from . import views
 from .import HodViews
 from .import StaffViews
+from .import StudentViews
 
 
 urlpatterns = [
