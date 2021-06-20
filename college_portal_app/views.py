@@ -73,7 +73,7 @@ def change_password(request):
         return render(request, 'index3.html', {'message':"Passwords don't match each other",'email':request.POST.get('otp_email')})
 
 
-def doLogin(request):
+ef doLogin(request):
     if request.method != "POST":
         return HttpResponse("<h2>Method Not Allowed</h2>")
         
@@ -87,12 +87,12 @@ def doLogin(request):
                 return redirect('admin_home')
                 
             elif user_type == '2':
-                return HttpResponse("Teacher Login"+str(user.user_type))
-                # return redirect('teacher_home')
+                #return  HttpResponseRedirect(Reversible("staff_home"))
+                return redirect('staff_home')
                 
             elif user_type == '3':
-                # return HttpResponse("Student Login")
-                return redirect('student_home')
+                #return HttpResponse("Student Login")
+               return redirect('student_home')
             else:
                 messages.error(request, "Invalid Login!")
                 return redirect('login')
@@ -100,6 +100,7 @@ def doLogin(request):
             messages.error(request, "Invalid Login Credentials!")
             #return HttpResponseRedirect("/")
             return redirect('login')
+ 
 
 
 
