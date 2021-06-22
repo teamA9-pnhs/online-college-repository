@@ -1,7 +1,7 @@
 {% extends 'hod_template/base_template.html' %}
 
 {% block page_title %}
-    Add Student
+    Add Subject
 {% endblock page_title %}
 
 {% block content %}
@@ -20,7 +20,7 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form role="form" method="POST" action="{% url 'add_subject_template_save' %}">
+                    <form role="form" method="POST" action="{% url 'add_teacher_save' %}">
                         {% csrf_token %}
 
                         
@@ -48,44 +48,48 @@
                                 </div>
                                 </div>
                                 {% endif %}
-                          <div class="form-group">
-                            <label>Subject Name </label>
-                              <input type="text" class="form-control" name="subject_name" placeholder="Enter Subject">
-                          </div>    
-                          <div class="form-group">
-                            <label>Semester</label>
-                            <select class="form-control" name="semister" >
-
-                                {% for semister in semisters %}
-                                    <option value="{{ semister.id }}"> {{ semister.semister_name }} </option>
-                                {% endfor %}
-
-                            </select>
+                            
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Subject Name</label>
+                                        <input type="text" class="form-control" name="subject" placeholder="Enter Subject" >
+                                        <br>
+        
+                                        <label>Semester Id</label>
+                                        <input type="text" class="form-control" name="sem_id" placeholder="Enter Semester Id" >
+                                        <br>
+        
+                                        <label>Teacher Id</label>
+                                        <input type="text" class="form-control" name="teacher_id" placeholder="Enter Teacher Id" >
+                                        <br>
+        
+                                        <label>Created At</label>
+                                        <input type="date" class="form-control" name="created" placeholder="Enter When Subject Was Created" >
+                                        <br>
+        
+                                        <label>Updated At</label>
+                                        <input type="date" class="form-control" name="updated" placeholder="Enter Subject Was Updated" >
+                                        <br>
+        
+                                    </div>
+        
+        
+                                </div>
+                                <!-- /.card-body -->
+        
+                                <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Add Subject</button>
+                                </div>
+                            </form>
+                            </div>
+                            <!-- /.card -->
+        
                         </div>
-                            <div class="form-group">
-                              <label>Teacher</label>
-                              <select class="form-control" name="teacher" >
-
-                                  {% for teacher in teachers %}
-                                      <option value="{{ teacher.id }}"> {{ teacher.first_name }} {{ teacher.last_name }}</option>
-                                  {% endfor %}
-
-                              </select>
-                          </div>
-
-                        <!-- /.card-body -->
-
-                        <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Add Student</button>
-                        </div>
-                    </form>
                     </div>
-                    <!-- /.card -->
-
-                </div>
-            </div>
-
-        </div><!-- /.container-fluid -->
-      </section>
-
-  {% endblock content %}
+        
+                </div><!-- /.container-fluid -->
+              </section>
+        
+          {% endblock content %}
+        
+            
