@@ -397,7 +397,7 @@ def manage_session(request):
 def add_subject_template(request):
     semister=Semisters.objects.all()
     teachers=CustomUser.objects.filter(user_type=2)
-    return render(request,"hod_template/add_subject_template.html", {"teachers":teachers,"semister":semister})
+    return render(request,"hod_template/add_subject_template.html")
 
 def add_subject_template_save(request):
     if request.method!="POST":
