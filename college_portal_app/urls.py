@@ -36,7 +36,7 @@ urlpatterns = [
     path('change_password/',views.change_password, name='change_password'),
     ##new addition
     path('add_subject_template/', HodViews.add_subject_template,name="add_subject_template"),
-    path('add_subject_template_save/', HodViews.add_subject_template,name="add_subject_template"),
+    # path('add_subject_template_save/', HodViews.add_subject_template,name="add_subject_template"),
     path('manage_subject/', HodViews.manage_subject,name="manage_subject"),
     # path('edit_student/<student_id>', HodViews.edit_student, name="edit_student"),
     # path('edit_student_save/', HodViews.edit_student_save, name="edit_student_save"),
