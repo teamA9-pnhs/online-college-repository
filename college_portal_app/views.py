@@ -16,12 +16,6 @@ def home(request):
 def loginPage(request):
     return render(request, 'login.html')
 
-
-
-# def attendanceReport(request):
-#     return render(request 'attendance.html')
-
-    
 def go_here(request):
     if request.method == 'GET':
        return render(request , 'index.html')
@@ -73,7 +67,7 @@ def change_password(request):
         return render(request, 'index3.html', {'message':"Passwords don't match each other",'email':request.POST.get('otp_email')})
 
 
-def doLogin (request):
+def doLogin(request):
     if request.method != "POST":
         return HttpResponse("<h2>Method Not Allowed</h2>")
         
