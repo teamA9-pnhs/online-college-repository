@@ -25,14 +25,14 @@ class LoginCheckMiddleWare(MiddlewareMixin):
                     pass
                 else:
                     return redirect("admin_home")
-            #variables changed by neetya
+            
             elif user.user_type == "2":
-                if modulename == "college_portal_app.StaffViews":
+                if modulename == "college_portal_app.TeacherViews":
                     pass
                 elif modulename == "college_portal_app.views" or modulename == "django.views.static":
                     pass
                 else:
-                    return redirect("staff_home")
+                   return render(request, "staff_Templates/base_template.html")
             
             elif user.user_type == "3":
                 if modulename == "college_portal_app.StudentViews":
@@ -40,8 +40,7 @@ class LoginCheckMiddleWare(MiddlewareMixin):
                 elif modulename == "college_portal_app.views" or modulename == "django.views.static":
                     pass
                 else:
-                    return redirect("student_home")
-
+                    return render(request, "student_Templates/base_template.html")
 
             else:
                 return redirect("login")
