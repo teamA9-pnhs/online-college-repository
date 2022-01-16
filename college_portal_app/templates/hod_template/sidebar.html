@@ -1,0 +1,295 @@
+{% load static %}
+
+<!-- Sidebar -->
+<div class="sidebar sidebar-style-2" id="sidebar">
+
+	<div class="sidebar-wrapper scrollbar scrollbar-inner">
+		<div class="sidebar-content">
+
+
+			<div class="user">
+				<div class="avatar-sm float-left mr-2">
+					<img src="{% static 'assets/img/profile.jpg' %}" alt="..." class="avatar-img rounded-circle">
+				</div>
+				<div class="info">
+					<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+						<span>
+							{{user}}
+							<span class="user-level">
+								{{user}}
+							</span>
+							<span class="caret"></span>
+						</span>
+					</a>
+					<div class="clearfix"></div>
+
+					<div class="collapse in" id="collapseExample">
+						<ul class="nav">
+							<li>
+								<a href="/change">
+									<span class="link-collapse">Edit Profile</span>
+								</a>
+							</li>
+							<li>
+								<a href="/logout_user">
+									<span class="link-collapse">Logout</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<ul class="nav nav-primary">
+				<li id="dashboard1" class="nav-item">
+					<a href="/admin_home" class="menu_list">
+						<i class="fas fa-home"></i>
+						<p>Dashboard</p>
+					</a>
+				</li>
+				<br>
+					<!-- <li  class="nav-item">
+					<a  data-toggle="collapse" href="#admissionslist" class=" collapsed "
+						aria-expanded="false">
+						<i class="fas fa-user-tie"></i>
+						<p>Admissions</p>
+						<span class="caret"></span>
+					</a>
+					<div id="admissionslist" class="collapse">
+						<ul class="nav nav-collapse">
+							<li id="admissions_page">
+								<a href="/admissions" class="menu_list">
+									<span class="sub-item">Admissions Page</span>
+								</a>
+							</li>
+							<li>
+								<a href="/admission_form" class="menu_list">
+									<span class="sub-item">Admission form</span>
+								</a>
+							</li>
+							<li>
+								<a href="/profile" class="menu_list">
+									<span class="sub-item">View Student Profile</span>
+								</a>
+							</li>
+
+						</ul>
+					</div>
+				</li>
+
+				<li id="liveclasses" class="nav-item">
+					<a href="/stream" class="menu_list">
+						<i class="fas fa-desktop"></i>
+						<p>Live Classes</p>
+
+					</a> -->
+				</li>
+				<li id="calendar_item" class="nav-item">
+					<a href="/show_calendar/" class="menu_list">
+						<i class="fas fa-calendar"></i>
+						<p>Calendar</p>
+
+					</a>
+				</li>
+
+				<li id="ongoingclasses" class="nav-item">
+					<a href="/manage_semister/" class="menu_list">
+						<i class="fas fa-chalkboard-teacher"></i>
+						<p>Semister</p>
+
+					</a>
+				</li>
+
+				<li id="teachers" class="nav-item">
+					{% url 'manage_teacher' as manage_teacher %}
+              		{% url 'edit_teacher' teacher_id=id as edit_teacher %}
+              		<a href="{{ manage_teacher }}" class="nav-link {% if request.path == manage_teacher %} active {% endif %} {% if request.path == edit_teacher %} active {% endif %}">
+						<i class="fas fa-user-tie"></i>
+						<p>Teacher's Management</p>
+
+					</a>
+				</li>
+
+				<li id="teachers" class="nav-item">
+					<a href="/add_student/" class="menu_list">
+					{% comment %} {% url 'add_student' as add_student %}
+              		{% url 'edit_teacher' teacher_id=id as edit_teacher %}
+              		<a href="{{ manage_teacher }}" class="nav-link {% if request.path == manage_teacher %} active {% endif %} {% if request.path == edit_teacher %} active {% endif %}"> {% endcomment %}
+						<i class="fas fa-user-tie"></i>
+						<p>Student's Management</p>
+
+					</a>
+				</li>
+				
+				<li id="fee1" class="nav-item">
+					<a id="feefirstid" data-toggle="collapse" href="#fee" class=" collapsed " aria-expanded="false">
+						<i class="fas fa-rupee-sign"></i>
+						<p>Leave Requests</p>
+						<span class="caret"></span>
+					</a>
+					<div id="fee" class="collapse">
+						<ul class="nav nav-collapse">
+							<li class="list_menu">
+								<a href="/leave_req/ " class="menu_list">
+									<span class="sub-item">Students</span>
+								</a>
+							</li>
+							<li class="list_menu">
+								<a href="/leave_req_faculty/" class="menu_list">
+									<span class="sub-item">Teachers</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+		
+				</li>
+
+				<li id="teachers" class="nav-item">
+					<a href="/manage_student/" class="menu_list">
+					{% comment %} {% url 'add_student' as add_student %}
+              		{% url 'edit_teacher' teacher_id=id as edit_teacher %}
+              		<a href="{{ manage_teacher }}" class="nav-link {% if request.path == manage_teacher %} active {% endif %} {% if request.path == edit_teacher %} active {% endif %}"> {% endcomment %}
+						<i class="fas fa-user-tie"></i>
+						<p>Student's show</p>
+
+					</a>
+				</li>
+
+				<!-- <li id="ongoingclasses" class="nav-item">
+					<a href="/live_classes" class="menu_list">
+						<i class="fas fa-chalkboard-teacher"></i>
+						<p>Ongoing Classes</p>
+
+					</a>
+				</li> -->
+
+				<li id="fee2" class="nav-item">
+					<a id="feefirstid1" data-toggle="collapse" href="#fee3" class=" collapsed " aria-expanded="false">
+						<i class="fas fa-rupee-sign"></i>
+						<p>Attendance</p>
+						<span class="caret"></span>
+					</a>
+					<div id="fee3" class="collapse">
+						<ul class="nav nav-collapse">
+							<li class="list_menu">
+								<a href="/leave_req/ " class="menu_list">
+									<span class="sub-item">Students Attendance</span>
+								</a>
+							</li>
+							<li class="list_menu">
+								<a href="/leave_req_faculty/" class="menu_list">
+									<span class="sub-item">Teachers Attendance</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+
+				
+				
+			</ul>
+
+
+		</div>
+	</div>
+</div>
+
+<script>
+
+	const currentLocation = location.href;
+	const menuItem = document.querySelectorAll(".menu_list");
+	const menuLength = menuItem.length;
+	console.log(menuItem);
+	const sidebartabs = [
+		{
+			id: "dashboard1",
+			collapsible: 0,
+		},
+		{
+			id: "admissions",
+			collapsible: 1,
+			first_id: "admissionsid",
+			second_id: "admissionslist"
+		},
+		{
+			id: "liveclasses",
+			collapsible: 0
+		},
+        {
+            id: "calendar_item",
+            collapsible : 0
+        },
+        {
+            id: "teachers",
+            collapsible : 0
+        },
+        {
+            id: "ongoingclasses",
+            collapsible : 0
+        },
+		{
+			id: "fee1",
+			collapsible: 1,
+			first_id: "feefirstid",
+			second_id: "fee"
+		},
+		{
+			id: "fee2",
+			collapsible: 1,
+			first_id: "feefirstid1",
+			second_id: "fee3"
+		}]
+	var selectedtab = -1;
+	for (var i = 0; i < menuLength; i++) {
+		if (menuItem[i].href === currentLocation.slice(0, -1)) {
+			if (i == 0) {
+				selectedtab = 0;
+				break;
+			} else if (i > 0 && i < 4) {
+				selectedtab = 1;
+				break;
+			} else if (i === 4) {
+				selectedtab = 2;
+				break;
+			}
+			else if (i === 5){
+			    selectedtab = 3;
+			    break;
+
+            }else if (i === 6){
+			    selectedtab = 4;
+			    break;
+
+            }else if (i === 7){
+			    selectedtab = 5;
+			    break;
+
+            } else {
+				selectedtab = 6;
+				break;
+			}
+
+		}
+	}
+	if (selectedtab != -1) {
+
+		for (var j = 0; j < sidebartabs.length; j++) {
+			if (j == selectedtab) {
+				document.getElementById(sidebartabs[j].id).className = "active nav-item submenu";
+				if (sidebartabs[j].collapsible === 1) {
+					document.getElementById(sidebartabs[j].first_id).setAttribute("aria-expanded", 'true');
+					document.getElementById(sidebartabs[j].first_id).className = "";
+					document.getElementById(sidebartabs[j].second_id).className = "collapse show";
+				}
+			} else {
+				document.getElementById(sidebartabs[j].id).className = "nav-item";
+				if (sidebartabs[j].collapsible === 1) {
+					document.getElementById(sidebartabs[j].first_id).setAttribute("aria-expanded", 'false');
+					document.getElementById(sidebartabs[j].first_id).className = "collapsed";
+					document.getElementById(sidebartabs[j].second_id).className = "collapse";
+				}
+			}
+		}
+	}
+
+</script>
+<!-- End Sidebar -->
