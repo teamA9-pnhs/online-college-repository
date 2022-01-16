@@ -6,14 +6,19 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
-
-from college_portal_app.models import CustomUser, Teachers,Semisters,Students,Subjects
+from college_portal_app.forms import EventForm
+from college_portal_app.models import CustomUser, Teachers,Semisters,Students,Calendar,LeaveReportTeacher,LeaveReportStudent,Attendance,AttendanceReport
 
 
 
 def admin_home(request):
     return render(request, "hod_template/home_content.html")
 
+def staff_home(request):
+    return render(request, "staff_Templates/base_template.html")
+
+def student_home(request):
+    return render(request, "student_Templates/base_template.html")
 
 def add_teacher(request):
     return render(request, "hod_template/add_teacher_template.html")
@@ -218,207 +223,85 @@ def manage_student(request):
     context = {
         "students": students
     }
+    # print(context.admin)
     return render(request, 'hod_template/manage_student.html', context)
-#student module author neetya date 20-6-21
-def add_student(request):
-    semisters=Semisters.objects.all()
-    return render(request,'hod_template/add_student.html',{"semisters":semisters})
-
-def add_student_save(request):
-    if request.method != "POST":
-        messages.error(request, "Invalid Method ")
-        return redirect('add_student')
-        
-    else:
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        address = request.POST.get('address')
-        session_start=request.POST.get('session_start')
-        session_end=request.POST.get('session_end')
-        semister_id=request.POST.get('semister')
-        sex=request.POST.get("sex")
-
-        try:
-
-            user = CustomUser.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name, user_type=3)
-            user.students.address = address
-            semister_obj=Semisters.objects.get(id=semister_id)
-            user.students.semister_id=semister_obj
-            user.students.session_start_year=session_start
-            user.students.session_end_year=session_end
-            user.students.gender=sex
-            user.students.profile_pics=""
-            user.save()
-            messages.success(request, "Student Added Successfully!")
-            return redirect('add_student')
-        except:
-            messages.error(request, "Failed to Add Student!")
-            return redirect('add_student')
 
 
-def manage_student(request):
-    students = Students.objects.all()
+def leave_req(request):
+    students = LeaveReportStudent.objects.all()
     context = {
         "students": students
     }
-    return render(request, 'hod_template/manage_student.html', context)
-
-def edit_student(request, student_id):
-    student = Students.objects.get(admin=student_id)
-
+    # print(context.admin)
+    return render(request, 'hod_template/leave_req.html', context)
+    
+def leave_req_faculty(request):
+    Teachers = LeaveReportTeacher.objects.all()
     context = {
-        "student": student,
-        "id": student_id
+        "teachers": Teachers
     }
-    return render(request, "hod_template/edit_student.html", context)
+    # print(context.admin)
+    return render(request, 'hod_template/leave_req_faculty.html', context)
 
+def attendance_faculty(request):
+    Teachers = Attendance.objects.all()
+    context = {
+        "teachers": Teachers
+    }
+    # print(context.admin)
+    return render(request, 'hod_template/attendance_faculty.html', context)
 
-def edit_student_save(request):
-    if request.method != "POST":
-        return HttpResponse("<h2>Method Not Allowed</h2>")
-    else:
-        student_id = request.POST.get('student_id')
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        address = request.POST.get('address')
-
-        try:
-            # INSERTING into Customuser Model
-            user = CustomUser.objects.get(id=student_id)
-            user.first_name = first_name
-            user.last_name = last_name
-            user.email = email
-            user.username = username
-            user.save()
-            
-            # INSERTING into Teacher Model
-            student_model = Students.objects.get(admin=student_id)
-            student_model.address = address
-            student_model.save()
-
-            messages.success(request, "Student Updated Successfully.")
-            return redirect('/edit_student/'+student_id)
-
-        except:
-            messages.error(request, "Failed to Update Student.")
-            return redirect('/edit_student/'+student_id)
-
-def delete_student(request,student_id):
-    student = Students.objects.get(admin=student_id)
-    try:
-        student.delete()
-        messages.success(request, "Student Deleted Successfully.")
-        return redirect('manage_student')
-    except:
-        messages.error(request, "Failed to Delete student.")
-        return redirect('manage_student')
-
-def manage_session(request):
-    return render(request,"hod_template/manage_session_template.html")
-
-#def add_session_save(request):
-    if request.method!="POST":
-        return HttpResponseRedirect(reverse("manage_session"))
-    else:
-        session_start_year=request.POST.get("session_start")
-        session_end_year=request.POST.get("session_end")
-
-        try:
-            sessionyear=SessionYearModel(session_start_year=session_start_year,session_end_year=session_end_year)
-            sessionyear.save()
-            messages.success(request, "Successfully Added Session")
-            return HttpResponseRedirect(reverse("manage_session"))
-        except:
-            messages.error(request, "Failed to Add Session")
-            return HttpResponseRedirect(reverse("manage_session"))
-#code by Neetya Dated: 19-06-21
-#these u add and try
-#see there is some mistake either of these four files
-def add_subject_template(request):
-    semisters=Semisters.objects.all()
-    teachers=CustomUser.objects.filter(user_type=2)
-    return render(request,"hod_template/add_subject_template.html", {"semisters":semisters,"teachers":teachers})
-
-def add_subject_template_save(request):
-    if request.method!="POST":
-        return HttpResponse("<h2>Method Not Allowed</h2>")
-    else:
-        subject_name=request.POST.get("subject_name")
-        semister_id=request.POST.get("semester")
-        teacher_id=request.POST.get("staff")
-        
-
-        try:
-            subject=Subjects(subject_name=subject_name)
-            semister_obj=Semisters.objects.get(id=semister_id)
-            subject.semister_id=semister_obj
-            teachers_obj=CustomUser.objects.get(id=teacher_id)
-            subject.teacher_id=teachers_obj 
-            subject.save()
-
-            messages.success(request,"Successfully Added Subject")
-            return redirect('add_subject_template')
-        except:
-            messages.error(request,"Failed to Add Subject")
-            return redirect('add_subject_template')
-
-def manage_subject(request):
-    subjects=Subjects.objects.all()
-    return render(request,"hod_template/manage_subject.html",{"subjects":subjects})
+def attendance_student(request):
+    Students = AttendanceReport.objects.all()
+    context = {
+        "students": Students
+    }
+    # print(context.admin)
+    return render(request, 'hod_template/attendance_student.html', context)
 
 
 
-def manage_session(request):
-    return render(request,"hod_template/manage_session_template.html")
+# Name: Harshat 
+# Functionality : Calendar database for users
+# model : models.py -> Calendar 
+# html : sidebar.html, hod_templates/calendar.html
+# url : urls.py
+# last modified : 19/06/2020
+from json import dumps
+from django.core import serializers
 
-#def add_session_save(request):
-    if request.method!="POST":
-        return HttpResponseRedirect(reverse("manage_session"))
-    else:
-        session_start_year=request.POST.get("session_start")
-        session_end_year=request.POST.get("session_end")
+def show_calendar(request):
+    calendar_events = Calendar.objects.filter(customuser=request.user).values()
+    calendar = {}
+    # dataJson_1 = json.dumps(calendar_events,indent=0, sort_keys=True,default=str)
+    i='a'
+    for e in calendar_events:
+        calendar[i] = e
+        i=i+'a'
+    # dataJson =json.dumps(calendar, indent=0, sort_keys=True, default=str);
+    # x = dataJson.split("\n")
+    # dataJson = serializers.serialize('json',calendar);
+    # print(calendar['a'])
+    # print(calendar_events.title)
+    return render(request, 'hod_template/calendar.html',{'calendar_events':calendar_events})
 
-        try:
-            sessionyear=SessionYearModel(session_start_year=session_start_year,session_end_year=session_end_year)
-            sessionyear.save()
-            messages.success(request, "Successfully Added Session")
-            return HttpResponseRedirect(reverse("manage_session"))
-        except:
-            messages.error(request, "Failed to Add Session")
-            return HttpResponseRedirect(reverse("manage_session"))
-#code by Neetya Dated: 19-06-21
-#these u add and try
-#see there is some mistake either of these four files
-def add_subject_template(request):
-    semister=Semisters.objects.all()
-    teachers=CustomUser.objects.filter(user_type=2)
-    return render(request,"hod_template/add_subject_template.html")
-
-def add_subject_template_save(request):
-    if request.method!="POST":
-        return HttpResponse("<h2>Method Not Allowed</h2>")
-    else:
-        subject_name=request.POST.get("subject_name")
-        semisters_id=request.POST.get("semester")
-        semisters=Semisters.objects.get(id=semisters_id)
-        teachers_id=request.POST.get("staff")
-        teachers=CustomUser.objects.get(id=teachers_id)
-
-        try:
-            subject=Subjects(subject_name=subject_name,semister_id=semisters,teacher_id=teachers)
-            subject.save()
-            messages.success(request,"Successfully Added Subject")
-            return HttpResponseRedirect(reverse("add_subject"))
-        except:
-            messages.error(request,"Failed to Add Subject")
-            return HttpResponseRedirect(reverse("add_subject"))
-
-def manage_subject(request):
-    subjects=Subjects.objects.all()
-    return render(request,"hod_template/manage_subject.html",{"subjects":subjects})
+def new_event(request):
+    form = EventForm(request.POST or None)
+    print(request.GET["this_day"] )
+    if request.POST and form.is_valid():
+        print("VOILA SUCCESSFUL MY FRIEND")
+        title = form.cleaned_data['title']
+        description = form.cleaned_data['description']
+        start_time = form.cleaned_data['start_time']
+        end_time = form.cleaned_data['end_time']
+        Calendar.objects.get_or_create(
+            title=title,
+            description=description,
+            start_time=start_time,
+            end_time=end_time,
+            customuser=request.user,
+            created_date=request.GET["this_day"]
+        )
+        return HttpResponseRedirect(reverse('show_calendar'))
+    return render(request, 'hod_template/event.html', {'form': form})
 
